@@ -3,14 +3,23 @@
 <head>
     <title>Belajar Python</title>
 </head>
-
 <body>
 
-    <h1>NORTON BALI COMPUTER</h1>
+    <h1>Belajar Python</h1>
 
-    <h2>Belajar Python</h2>
+    <form method="POST">
+        <label>Siapa nama Anda?</label>
+        <br><br>
 
-    <p>Saya sedang belajar membuat program Python.</p>
+        <input type="text" name="nama" required>
+
+        <button type="submit">Kirim</button>
+    </form>
+
+    {% if nama %}
+        <h2>Halo {{ nama }}!</h2>
+        <p>Selamat belajar Python!</p>
+    {% endif %}
 
 </body>
 </html>
