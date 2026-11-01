@@ -3,1807 +3,1868 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terima Kasih - Review Google</title>
 
-<title>Live AI Customer Service</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
-
-* {
-  box-sizing: border-box;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-html,
-body {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  font-family: Arial, sans-serif;
-  overflow: hidden;
+html,body{
+    width:100%;
+    height:100%;
 }
 
+body{
+    overflow:hidden;
+    font-family:Arial,Helvetica,sans-serif;
+    color:#fff;
 
-/* ==================================================
-   BACKGROUND
-================================================== */
-
-body {
-
-  background:
-    radial-gradient(
-      circle at 20% 20%,
-      #2563eb 0,
-      transparent 35%
-    ),
-    linear-gradient(
-      135deg,
-      #020617,
-      #0f172a
-    );
-
-  color: white;
-
+    background:
+        radial-gradient(circle at 75% 35%,rgba(37,99,235,.16),transparent 30%),
+        radial-gradient(circle at 20% 80%,rgba(124,58,237,.14),transparent 30%),
+        linear-gradient(135deg,#020617,#071126 55%,#030712);
 }
 
+/* BACKGROUND COMPUTER GRID */
 
-/* ==================================================
-   APP
-================================================== */
+body:after{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
 
-.app {
+    background-image:
+        linear-gradient(rgba(59,130,246,.035) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(59,130,246,.035) 1px,transparent 1px);
 
-  width: 100%;
-  height: 100vh;
-
-  display: flex;
-  flex-direction: column;
-
+    background-size:40px 40px;
 }
 
-
-/* ==================================================
-   HEADER
-================================================== */
-
-.header {
-
-  height: 70px;
-
-  padding: 0 30px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  background:
-    rgba(2,6,23,.85);
-
-  border-bottom:
-    1px solid rgba(255,255,255,.1);
-
-  z-index: 10;
-
+.line{
+    position:fixed;
+    background:#3b82f6;
+    opacity:.12;
+    pointer-events:none;
 }
 
-.logo {
-
-  font-size: 21px;
-
-  font-weight: bold;
-
+.line.v1{
+    left:5%;
+    top:0;
+    width:1px;
+    height:100%;
 }
 
-.status-online {
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 8px;
-
-  font-size: 13px;
-
-  color: #cbd5e1;
-
+.line.v2{
+    right:5%;
+    top:0;
+    width:1px;
+    height:100%;
 }
 
-.online-dot {
-
-  width: 9px;
-
-  height: 9px;
-
-  border-radius: 50%;
-
-  background: #22c55e;
-
-  box-shadow:
-    0 0 12px #22c55e;
-
+.line.h1{
+    left:0;
+    top:13%;
+    width:100%;
+    height:1px;
 }
 
+/* PAGE */
 
-/* ==================================================
-   MAIN
-================================================== */
+.page{
+    position:relative;
+    z-index:2;
 
-.main {
+    width:100%;
+    height:100vh;
 
-  flex: 1;
+    padding:13px 25px;
 
-  display: grid;
-
-  grid-template-columns:
-    42% 58%;
-
-  min-height: 0;
-
+    display:flex;
+    flex-direction:column;
 }
 
+/* TOP */
 
-/* ==================================================
-   LEFT AVATAR AREA
-================================================== */
+.topbar{
+    height:36px;
+    flex:0 0 36px;
 
-.avatar-section {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 
-  position: relative;
+    padding:0 14px;
 
-  overflow: hidden;
+    border:1px solid rgba(148,163,184,.12);
+    border-radius:10px;
 
-  display: flex;
-
-  justify-content: center;
-
-}
-
-
-/* garis tengah */
-
-.avatar-section::after {
-
-  content: "";
-
-  position: absolute;
-
-  right: 0;
-
-  top: 0;
-
-  width: 1px;
-
-  height: 100%;
-
-  background:
-    rgba(255,255,255,.08);
-
-}
-
-
-/* ==================================================
-   AVATAR TRACK
-================================================== */
-
-.avatar-track {
-
-  position: absolute;
-
-  top: 40px;
-
-  left: 0;
-
-  width: 100%;
-
-  display: flex;
-
-  justify-content: center;
-
-  transition:
-    transform .8s cubic-bezier(.2,.8,.2,1);
-
-}
-
-
-/*
-Avatar akan bergerak turun
-setiap kali percakapan bertambah.
-*/
-
-.avatar-track.move-1 {
-  transform: translateY(45px);
-}
-
-.avatar-track.move-2 {
-  transform: translateY(90px);
-}
-
-.avatar-track.move-3 {
-  transform: translateY(135px);
-}
-
-.avatar-track.move-4 {
-  transform: translateY(180px);
-}
-
-.avatar-track.move-5 {
-  transform: translateY(225px);
-}
-
-
-/* ==================================================
-   AVATAR
-================================================== */
-
-.avatar-wrapper {
-
-  width: 330px;
-
-  height: 330px;
-
-  border-radius: 50%;
-
-  display: flex;
-
-  justify-content: center;
-
-  align-items: center;
-
-  background:
-    radial-gradient(
-      circle,
-      #60a5fa,
-      #2563eb 50%,
-      #1e40af
-    );
-
-  box-shadow:
-    0 0 50px
-    rgba(37,99,235,.5);
-
-  transition:
-    transform .3s,
-    box-shadow .3s;
-
-}
-
-
-/* mendengarkan */
-
-.avatar-wrapper.listening {
-
-  animation:
-    listening 1s infinite;
-
-}
-
-
-/* berbicara */
-
-.avatar-wrapper.speaking {
-
-  animation:
-    talking .45s infinite alternate;
-
-}
-
-
-/* ==================================================
-   SVG
-================================================== */
-
-.avatar {
-
-  width: 255px;
-
-  height: 255px;
-
-}
-
-
-/* mulut */
-
-.mouth {
-
-  transform-origin:
-    150px 195px;
-
-}
-
-
-/* animasi mulut */
-
-.speaking .mouth {
-
-  animation:
-    mouthMove .22s infinite alternate;
-
-}
-
-
-/* ==================================================
-   INFO
-================================================== */
-
-.avatar-info {
-
-  position: absolute;
-
-  top: 390px;
-
-  width: 100%;
-
-  text-align: center;
-
-  transition:
-    top .8s;
-
-}
-
-.avatar-name {
-
-  font-size: 24px;
-
-  font-weight: bold;
-
-}
-
-.avatar-role {
-
-  margin-top: 6px;
-
-  color: #94a3b8;
-
-  font-size: 14px;
-
-}
-
-
-/* ==================================================
-   RIGHT CHAT
-================================================== */
-
-.chat-section {
-
-  display: flex;
-
-  flex-direction: column;
-
-  min-height: 0;
-
-  background:
-    rgba(15,23,42,.65);
-
-}
-
-
-/* ==================================================
-   CHAT HEADER
-================================================== */
-
-.chat-header {
-
-  padding: 22px 28px;
-
-  border-bottom:
-    1px solid rgba(255,255,255,.08);
-
-}
-
-.chat-header h2 {
-
-  margin: 0;
-
-  font-size: 20px;
-
-}
-
-.chat-header p {
-
-  margin: 5px 0 0;
-
-  color: #94a3b8;
-
-  font-size: 13px;
-
-}
-
-
-/* ==================================================
-   CHAT MESSAGES
-================================================== */
-
-#chat {
-
-  flex: 1;
-
-  overflow-y: auto;
-
-  padding: 25px;
-
-  scroll-behavior: smooth;
-
-}
-
-
-/* scrollbar */
-
-#chat::-webkit-scrollbar {
-
-  width: 7px;
-
-}
-
-#chat::-webkit-scrollbar-thumb {
-
-  background: #475569;
-
-  border-radius: 10px;
-
-}
-
-
-/* ==================================================
-   MESSAGE
-================================================== */
-
-.message {
-
-  max-width: 75%;
-
-  padding: 14px 18px;
-
-  margin-bottom: 18px;
-
-  border-radius: 18px;
-
-  line-height: 1.55;
-
-  white-space: pre-line;
-
-  animation:
-    messageIn .35s ease;
-
-}
-
-
-/* bot */
-
-.bot {
-
-  background: #334155;
-
-  border-bottom-left-radius: 5px;
-
-}
-
-
-/* user */
-
-.user {
-
-  margin-left: auto;
-
-  background: #2563eb;
-
-  border-bottom-right-radius: 5px;
-
-}
-
-
-/* ==================================================
-   INPUT
-================================================== */
-
-.bottom {
-
-  padding: 15px 25px 20px;
-
-  border-top:
-    1px solid rgba(255,255,255,.08);
-
-}
-
-
-/* input */
-
-.input-area {
-
-  display: flex;
-
-  gap: 10px;
-
-}
-
-#textInput {
-
-  flex: 1;
-
-  padding: 15px;
-
-  border: none;
-
-  outline: none;
-
-  border-radius: 14px;
-
-  background: #334155;
-
-  color: white;
-
-  font-size: 14px;
-
-}
-
-#textInput::placeholder {
-
-  color: #94a3b8;
-
-}
-
-
-/* send */
-
-#send {
-
-  border: none;
-
-  padding: 0 22px;
-
-  border-radius: 14px;
-
-  background: #2563eb;
-
-  color: white;
-
-  cursor: pointer;
-
-  font-weight: bold;
-
-}
-
-
-/* microphone */
-
-.mic-row {
-
-  text-align: center;
-
-  margin-top: 12px;
-
-}
-
-#mic {
-
-  width: 58px;
-
-  height: 58px;
-
-  border: none;
-
-  border-radius: 50%;
-
-  background: #2563eb;
-
-  color: white;
-
-  font-size: 25px;
-
-  cursor: pointer;
-
-}
-
-#mic.active {
-
-  background: #dc2626;
-
-  animation:
-    pulse 1s infinite;
-
-}
-
-#status {
-
-  margin-top: 7px;
-
-  text-align: center;
-
-  font-size: 12px;
-
-  color: #94a3b8;
-
-}
-
-
-/* ==================================================
-   ANIMATION
-================================================== */
-
-@keyframes listening {
-
-  0% {
+    background:rgba(15,23,42,.78);
 
     box-shadow:
-      0 0 25px #3b82f6;
+        0 10px 30px rgba(0,0,0,.25);
+}
 
-  }
+.logo{
+    display:flex;
+    align-items:center;
+    gap:8px;
 
-  50% {
+    color:#dbeafe;
+
+    font-size:10px;
+    font-weight:bold;
+    letter-spacing:1px;
+}
+
+.logo-icon{
+    width:21px;
+    height:21px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:6px;
+
+    background:
+        linear-gradient(135deg,#2563eb,#7c3aed);
 
     box-shadow:
-      0 0 80px #60a5fa;
+        0 0 18px rgba(59,130,246,.45);
+}
 
-  }
+.online{
+    display:flex;
+    align-items:center;
+    gap:6px;
 
-  100% {
+    color:#86efac;
+
+    font-size:8px;
+}
+
+.online i{
+    width:6px;
+    height:6px;
+
+    border-radius:50%;
+
+    background:#22c55e;
+
+    box-shadow:0 0 10px #22c55e;
+
+    animation:online 1.5s infinite;
+}
+
+@keyframes online{
+    50%{
+        opacity:.3;
+        transform:scale(.7);
+    }
+}
+
+/* HEADER */
+
+header{
+    flex:0 0 auto;
+
+    text-align:center;
+
+    padding:7px 0 5px;
+}
+
+.badge{
+    display:inline-block;
+
+    padding:4px 12px;
+
+    border-radius:30px;
+
+    border:1px solid rgba(96,165,250,.2);
+
+    background:rgba(37,99,235,.08);
+
+    color:#93c5fd;
+
+    font-size:8px;
+    font-weight:bold;
+
+    letter-spacing:1.2px;
+}
+
+h1{
+    margin-top:4px;
+
+    font-size:clamp(27px,3.3vw,42px);
+    line-height:1;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ffffff,
+            #bfdbfe,
+            #c4b5fd
+        );
+
+    -webkit-background-clip:text;
+    background-clip:text;
+
+    color:transparent;
+}
+
+.heart{
+    display:inline-block;
+
+    color:#ff3150;
+
+    text-shadow:
+        0 0 14px rgba(255,49,80,.7);
+
+    animation:heartBeat 1.1s infinite;
+}
+
+@keyframes heartBeat{
+    0%,100%{
+        transform:scale(1);
+    }
+
+    20%{
+        transform:scale(1.22);
+    }
+
+    40%{
+        transform:scale(1);
+    }
+
+    60%{
+        transform:scale(1.12);
+    }
+}
+
+.header-sub{
+    margin-top:3px;
+
+    color:#94a3b8;
+
+    font-size:10px;
+}
+
+/* BINTANG TEPAT DI BAWAH TERIMA KASIH */
+
+.header-stars{
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    gap:5px;
+
+    margin-top:3px;
+
+    height:31px;
+}
+
+.header-stars span{
+    color:#fbbf24;
+
+    font-size:28px;
+    line-height:1;
+
+    text-shadow:
+        0 0 7px rgba(251,191,36,.7),
+        0 0 18px rgba(251,191,36,.35);
+
+    animation:star 1.4s ease-in-out infinite alternate;
+}
+
+.header-stars span:nth-child(1){
+    animation-delay:0s;
+}
+
+.header-stars span:nth-child(2){
+    animation-delay:.12s;
+}
+
+.header-stars span:nth-child(3){
+    animation-delay:.24s;
+}
+
+.header-stars span:nth-child(4){
+    animation-delay:.36s;
+}
+
+.header-stars span:nth-child(5){
+    animation-delay:.48s;
+}
+
+@keyframes star{
+    from{
+        transform:scale(1);
+        filter:brightness(1);
+    }
+
+    to{
+        transform:scale(1.16) translateY(-2px);
+        filter:brightness(1.35);
+    }
+}
+
+/* MAIN */
+
+.main{
+    flex:1;
+    min-height:0;
+
+    display:grid;
+
+    grid-template-columns:270px minmax(0,1fr);
+
+    gap:12px;
+}
+
+/* GENERATOR */
+
+.generator{
+    min-height:0;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+
+    padding:18px;
+
+    border-radius:16px;
+
+    background:rgba(15,23,42,.84);
+
+    border:1px solid rgba(148,163,184,.13);
 
     box-shadow:
-      0 0 25px #3b82f6;
-
-  }
-
+        0 25px 60px rgba(0,0,0,.3);
 }
 
+.window{
+    display:flex;
+    align-items:center;
+    gap:4px;
 
-@keyframes talking {
+    color:#475569;
 
-  from {
+    font-size:8px;
 
-    transform:
-      scale(1);
-
-  }
-
-  to {
-
-    transform:
-      scale(1.035);
-
-  }
-
+    margin-bottom:17px;
 }
 
-
-@keyframes mouthMove {
-
-  from {
-
-    transform:
-      scaleY(1);
-
-  }
-
-  to {
-
-    transform:
-      scaleY(.25);
-
-  }
-
+.window span{
+    width:7px;
+    height:7px;
+    border-radius:50%;
 }
 
+.window span:nth-child(1){
+    background:#ef4444;
+}
 
-@keyframes pulse {
+.window span:nth-child(2){
+    background:#eab308;
+}
 
-  0% {
+.window span:nth-child(3){
+    background:#22c55e;
+}
+
+.generator h2{
+    font-size:20px;
+    margin-bottom:7px;
+}
+
+.generator p{
+    color:#94a3b8;
+
+    font-size:11px;
+
+    line-height:1.6;
+
+    margin-bottom:18px;
+}
+
+label{
+    color:#cbd5e1;
+
+    font-size:9px;
+    font-weight:bold;
+
+    margin-bottom:7px;
+}
+
+input{
+    width:100%;
+
+    padding:13px;
+
+    border-radius:9px;
+
+    border:1px solid #334155;
+
+    outline:none;
+
+    background:#020617;
+
+    color:#f1f5f9;
+
+    font-size:11px;
+
+    transition:.25s;
+}
+
+input::placeholder{
+    color:#475569;
+}
+
+input:focus{
+    border-color:#3b82f6;
 
     box-shadow:
-      0 0 0 0
-      rgba(220,38,38,.6);
+        0 0 0 3px rgba(59,130,246,.12);
+}
 
-  }
+.generate{
+    width:100%;
 
-  70% {
+    padding:13px;
+
+    margin-top:9px;
+
+    border:0;
+    border-radius:9px;
+
+    color:#fff;
+
+    font-size:10px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #7c3aed
+        );
 
     box-shadow:
-      0 0 0 18px
-      rgba(220,38,38,0);
+        0 9px 25px rgba(37,99,235,.3);
 
-  }
+    transition:.25s;
+}
 
-  100% {
+.generate:hover{
+    transform:translateY(-2px);
 
     box-shadow:
-      0 0 0 0
-      rgba(220,38,38,0);
-
-  }
-
+        0 13px 32px rgba(37,99,235,.45);
 }
 
+.generate:active{
+    transform:scale(.97);
+}
 
-@keyframes messageIn {
+/* CONTENT */
 
-  from {
+.content{
+    min-width:0;
+    min-height:0;
 
-    opacity: 0;
+    display:grid;
+
+    grid-template-columns:185px minmax(0,1fr);
+
+    gap:12px;
+
+    padding:12px;
+
+    border-radius:16px;
+
+    background:rgba(2,6,23,.48);
+
+    border:1px solid rgba(148,163,184,.1);
+}
+
+/* QR */
+
+.qr-area{
+    min-width:0;
+
+    display:flex;
+    flex-direction:column;
+
+    justify-content:center;
+    align-items:center;
+
+    padding:10px;
+
+    border-radius:13px;
+
+    background:rgba(15,23,42,.75);
+
+    border:1px solid rgba(96,165,250,.1);
+}
+
+.qr-header{
+    color:#94a3b8;
+
+    font-size:9px;
+    font-weight:bold;
+
+    letter-spacing:1px;
+
+    margin-bottom:10px;
+}
+
+.qr-empty{
+    text-align:center;
+
+    color:#64748b;
+
+    font-size:10px;
+
+    line-height:1.5;
+}
+
+.qr-card{
+    display:none;
+
+    width:160px;
+
+    padding:8px;
+
+    border-radius:12px;
+
+    background:#fff;
+
+    box-shadow:
+        0 18px 40px rgba(0,0,0,.5);
+
+    animation:qrIn .4s ease-out;
+}
+
+@keyframes qrIn{
+    from{
+        opacity:0;
+        transform:scale(.8);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+#qrcode{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+#qrcode canvas,
+#qrcode img{
+    width:144px !important;
+    height:144px !important;
+
+    display:block;
+}
+
+.qr-label{
+    color:#111827;
+
+    text-align:center;
+
+    font-size:8px;
+    font-weight:bold;
+
+    margin-top:5px;
+}
+
+.download{
+    display:none;
+
+    margin-top:10px;
+
+    padding:9px 13px;
+
+    border:0;
+    border-radius:8px;
+
+    background:#f1f5f9;
+
+    color:#0f172a;
+
+    font-size:8px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.download:hover{
+    background:#fff;
+    transform:translateY(-2px);
+}
+
+/* MESSAGE */
+
+.message{
+    min-width:0;
+    min-height:0;
+
+    position:relative;
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+
+    text-align:center;
+
+    overflow:hidden;
+
+    padding:0 5px;
+}
+
+.message-title{
+    display:none;
+}
+
+/* AVATAR */
+
+.avatar{
+    position:relative;
+
+    width:100%;
+    max-width:560px;
+
+    height:285px;
+
+    flex:0 0 285px;
+
+    margin-top:1px;
+
+    animation:
+        avatarFloat
+        4s
+        ease-in-out
+        infinite;
+}
+
+@keyframes avatarFloat{
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-6px);
+    }
+}
+
+/* GLOW */
+
+.glow{
+    position:absolute;
+
+    width:225px;
+    height:225px;
+
+    left:50%;
+    top:45px;
+
+    transform:translateX(-50%);
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(59,130,246,.35),
+            rgba(59,130,246,.08) 45%,
+            transparent 70%
+        );
+
+    animation:
+        glow 3s ease-in-out infinite;
+}
+
+@keyframes glow{
+    0%,100%{
+        opacity:.55;
+
+        transform:
+            translateX(-50%)
+            scale(.92);
+    }
+
+    50%{
+        opacity:1;
+
+        transform:
+            translateX(-50%)
+            scale(1.12);
+    }
+}
+
+/* SPEECH */
+
+.speech{
+    position:absolute;
+
+    left:50%;
+    top:0;
+
+    transform:translateX(-50%);
+
+    width:min(390px,80%);
+
+    padding:12px 17px;
+
+    border-radius:
+        20px 20px 20px 5px;
+
+    background:#fff;
+
+    color:#172033;
+
+    font-size:13px;
+
+    font-weight:800;
+
+    line-height:1.4;
+
+    z-index:40;
+
+    box-shadow:
+        0 14px 35px rgba(0,0,0,.4);
+
+    animation:
+        speechFloat
+        3.2s
+        ease-in-out
+        infinite;
+}
+
+.speech small{
+    display:block;
+
+    color:#4f46e5;
+
+    font-size:9px;
+
+    font-weight:600;
+
+    line-height:1.4;
+
+    margin-top:4px;
+}
+
+.speech:after{
+    content:"";
+
+    position:absolute;
+
+    bottom:-7px;
+    left:50%;
+
+    width:14px;
+    height:14px;
+
+    background:#fff;
 
     transform:
-      translateY(15px);
-
-  }
-
-  to {
-
-    opacity: 1;
-
-    transform:
-      translateY(0);
-
-  }
-
+        translateX(-50%)
+        rotate(45deg);
 }
 
+@keyframes speechFloat{
+    0%,100%{
+        transform:
+            translateX(-50%)
+            translateY(0);
+    }
 
-/* ==================================================
-   MOBILE
-================================================== */
-
-@media(max-width: 900px) {
-
-  body {
-
-    overflow: auto;
-
-  }
-
-  .main {
-
-    grid-template-columns: 1fr;
-
-    height: auto;
-
-  }
-
-  .avatar-section {
-
-    height: 430px;
-
-  }
-
-  .avatar-wrapper {
-
-    width: 250px;
-
-    height: 250px;
-
-  }
-
-  .avatar {
-
-    width: 195px;
-
-    height: 195px;
-
-  }
-
-  .avatar-info {
-
-    top: 300px;
-
-  }
-
-  .chat-section {
-
-    height: 600px;
-
-  }
-
+    50%{
+        transform:
+            translateX(-50%)
+            translateY(-6px);
+    }
 }
 
+/* HEAD */
+
+.head{
+    position:absolute;
+
+    width:158px;
+    height:158px;
+
+    left:50%;
+    top:55px;
+
+    transform:translateX(-50%);
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffe4cb,
+            #efa06d
+        );
+
+    box-shadow:
+        inset -14px -18px 25px rgba(150,60,20,.12),
+        0 22px 40px rgba(0,0,0,.38);
+
+    z-index:10;
+
+    animation:
+        headMove
+        4s
+        ease-in-out
+        infinite;
+
+    transform-origin:50% 100%;
+}
+
+@keyframes headMove{
+    0%,100%{
+        transform:
+            translateX(-50%)
+            rotate(0);
+    }
+
+    25%{
+        transform:
+            translateX(-50%)
+            rotate(-2deg);
+    }
+
+    75%{
+        transform:
+            translateX(-50%)
+            rotate(2deg);
+    }
+}
+
+/* HAIR */
+
+.hair{
+    position:absolute;
+
+    width:164px;
+    height:74px;
+
+    left:-3px;
+    top:-5px;
+
+    border-radius:
+        85px 85px 38px 38px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #171329,
+            #3b2450
+        );
+
+    animation:
+        hairMove
+        4s
+        ease-in-out
+        infinite;
+}
+
+@keyframes hairMove{
+    0%,100%{
+        transform:rotate(0);
+    }
+
+    50%{
+        transform:rotate(-1deg);
+    }
+}
+
+.hair:before,
+.hair:after{
+    content:"";
+
+    position:absolute;
+
+    width:33px;
+    height:61px;
+
+    top:25px;
+
+    background:#261835;
+
+    border-radius:30px;
+}
+
+.hair:before{
+    left:0;
+    transform:rotate(12deg);
+}
+
+.hair:after{
+    right:0;
+    transform:rotate(-12deg);
+}
+
+/* EYES */
+
+.eye{
+    position:absolute;
+
+    top:63px;
+
+    width:15px;
+    height:21px;
+
+    border-radius:50%;
+
+    background:#172033;
+
+    transform-origin:center;
+
+    animation:
+        blink
+        4.8s
+        infinite;
+}
+
+.eye.left{
+    left:37px;
+}
+
+.eye.right{
+    right:37px;
+}
+
+.eye:after{
+    content:"";
+
+    position:absolute;
+
+    width:5px;
+    height:5px;
+
+    top:3px;
+    left:3px;
+
+    border-radius:50%;
+
+    background:#fff;
+}
+
+@keyframes blink{
+    0%,42%,44%,72%,74%,100%{
+        transform:scaleY(1);
+    }
+
+    43%,73%{
+        transform:scaleY(.08);
+    }
+}
+
+/* CHEEK */
+
+.cheek{
+    position:absolute;
+
+    width:25px;
+    height:11px;
+
+    top:92px;
+
+    border-radius:50%;
+
+    background:rgba(255,70,90,.23);
+}
+
+.cheek.left{
+    left:14px;
+}
+
+.cheek.right{
+    right:14px;
+}
+
+/* NOSE */
+
+.nose{
+    position:absolute;
+
+    top:82px;
+    left:74px;
+
+    width:8px;
+    height:14px;
+
+    border-right:
+        2px solid rgba(140,70,50,.3);
+
+    border-radius:50%;
+}
+
+/* SMILE */
+
+.smile{
+    position:absolute;
+
+    top:104px;
+    left:55px;
+
+    width:48px;
+    height:23px;
+
+    border-bottom:
+        5px solid #a64050;
+
+    border-radius:
+        0 0 50px 50px;
+
+    animation:
+        smile
+        2.8s
+        ease-in-out
+        infinite;
+}
+
+@keyframes smile{
+    0%,100%{
+        transform:scaleX(1);
+    }
+
+    50%{
+        transform:scaleX(1.08);
+    }
+}
+
+/* NECK */
+
+.neck{
+    position:absolute;
+
+    width:39px;
+    height:30px;
+
+    left:50%;
+    top:177px;
+
+    transform:translateX(-50%);
+
+    background:#efa878;
+
+    z-index:5;
+}
+
+/* BODY */
+
+.body{
+    position:absolute;
+
+    width:128px;
+    height:91px;
+
+    left:50%;
+    top:193px;
+
+    transform:translateX(-50%);
+
+    border-radius:
+        64px 64px 18px 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #4338ca
+        );
+
+    box-shadow:
+        0 16px 32px rgba(0,0,0,.4);
+
+    z-index:3;
+
+    animation:
+        bodyMove
+        4s
+        ease-in-out
+        infinite;
+}
+
+@keyframes bodyMove{
+    0%,100%{
+        transform:
+            translateX(-50%)
+            translateY(0);
+    }
+
+    50%{
+        transform:
+            translateX(-50%)
+            translateY(-4px);
+    }
+}
+
+/* HAND */
+
+.hand{
+    position:absolute;
+
+    width:57px;
+    height:26px;
+
+    top:198px;
+
+    border-radius:35px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffd1ae,
+            #ed9d6c
+        );
+
+    z-index:15;
+}
+
+.hand.left{
+    left:calc(50% - 126px);
+
+    transform:rotate(-35deg);
+
+    animation:
+        handLeft
+        3.5s
+        ease-in-out
+        infinite;
+}
+
+.hand.right{
+    right:calc(50% - 126px);
+
+    transform:rotate(35deg);
+
+    animation:
+        handRight
+        3.5s
+        ease-in-out
+        infinite;
+}
+
+@keyframes handLeft{
+    0%,100%{
+        transform:
+            rotate(-35deg)
+            translateY(0);
+    }
+
+    50%{
+        transform:
+            rotate(-29deg)
+            translateY(-6px);
+    }
+}
+
+@keyframes handRight{
+    0%,100%{
+        transform:
+            rotate(35deg)
+            translateY(0);
+    }
+
+    50%{
+        transform:
+            rotate(29deg)
+            translateY(-6px);
+    }
+}
+
+.hand:before{
+    content:"";
+
+    position:absolute;
+
+    width:34px;
+    height:38px;
+
+    top:-23px;
+
+    border-radius:
+        22px 22px 13px 13px;
+
+    background:#ffd1ae;
+}
+
+.hand.left:before{
+    left:3px;
+}
+
+.hand.right:before{
+    right:3px;
+}
+
+.hand:after{
+    content:"";
+
+    position:absolute;
+
+    width:7px;
+    height:22px;
+
+    top:-32px;
+
+    border-radius:8px;
+
+    background:#ffd1ae;
+
+    box-shadow:
+        9px -2px 0 #ffd1ae,
+        18px 0 0 #ffd1ae;
+}
+
+.hand.left:after{
+    left:5px;
+}
+
+.hand.right:after{
+    right:5px;
+}
+
+/* DOA / PESAN */
+
+.quote{
+    position:relative;
+    z-index:50;
+
+    width:min(760px,96%);
+
+    padding:13px 22px;
+
+    border-radius:14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(15,23,42,.96),
+            rgba(18,31,58,.92)
+        );
+
+    border:
+        1px solid rgba(96,165,250,.2);
+
+    color:#e2e8f0;
+
+    font-size:14px;
+
+    line-height:1.55;
+
+    font-weight:500;
+
+    text-align:center;
+
+    box-shadow:
+        0 12px 28px rgba(0,0,0,.25);
+}
+
+.quote strong{
+    color:#bfdbfe;
+}
+
+.quote .red{
+    color:#fda4af;
+}
+
+/* FOOTER */
+
+footer{
+    flex:0 0 auto;
+
+    text-align:center;
+
+    padding-top:3px;
+
+    color:#475569;
+
+    font-size:8px;
+}
+
+/* MOBILE */
+
+@media(max-width:850px){
+
+    body{
+        overflow:auto;
+    }
+
+    .page{
+        height:auto;
+        min-height:100vh;
+    }
+
+    .main{
+        grid-template-columns:1fr;
+    }
+
+    .content{
+        grid-template-columns:
+            180px
+            minmax(0,1fr);
+    }
+}
+
+@media(max-width:600px){
+
+    body{
+        overflow:auto;
+    }
+
+    .page{
+        padding:9px;
+    }
+
+    .main{
+        display:flex;
+        flex-direction:column;
+    }
+
+    .content{
+        display:flex;
+        flex-direction:column;
+
+        min-height:850px;
+    }
+
+    .message{
+        min-height:610px;
+    }
+
+    .qr-area{
+        min-height:210px;
+    }
+
+    .avatar{
+        transform:scale(.82);
+        transform-origin:top center;
+
+        margin-bottom:-48px;
+    }
+
+    .quote{
+        width:96%;
+
+        padding:12px 14px;
+
+        font-size:11px;
+    }
+
+    .header-stars span{
+        font-size:25px;
+    }
+}
+
+/* REDUCE MOTION */
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *:before,
+    *:after{
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        transition:none !important;
+    }
+}
 </style>
 </head>
 
-
 <body>
 
+<div class="line v1"></div>
+<div class="line v2"></div>
+<div class="line h1"></div>
 
-<div class="app">
+<div class="page">
 
+    <!-- TOP BAR -->
 
-<!-- ==================================================
-     HEADER
-================================================== -->
+    <div class="topbar">
 
-<header class="header">
+        <div class="logo">
 
-  <div class="logo">
-    🤖 AI Customer Service
-  </div>
+            <div class="logo-icon">✦</div>
 
-  <div class="status-online">
+            GMB REVIEW SYSTEM
 
-    <span class="online-dot"></span>
+        </div>
 
-    Sarah Online
+        <div class="online">
 
-  </div>
+            <i></i>
 
-</header>
+            SYSTEM ONLINE
 
-
-
-<!-- ==================================================
-     MAIN
-================================================== -->
-
-<main class="main">
-
-
-<!-- ==================================================
-     AVATAR
-================================================== -->
-
-<section class="avatar-section">
-
-
-  <div
-    id="avatarTrack"
-    class="avatar-track"
-  >
-
-    <div
-      id="avatarWrapper"
-      class="avatar-wrapper"
-    >
-
-
-      <!-- AVATAR -->
-
-      <svg
-        class="avatar"
-        viewBox="0 0 300 300"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-
-        <!-- rambut -->
-
-        <path
-          d="
-          M70 130
-          C65 60 105 25 150 25
-          C205 25 235 70 230 135
-          L210 115
-          C205 70 180 55 150 55
-          C115 55 90 80 85 120
-          Z"
-          fill="#3b2416"
-        />
-
-
-        <!-- wajah -->
-
-        <ellipse
-          cx="150"
-          cy="145"
-          rx="78"
-          ry="90"
-          fill="#f4c7a1"
-        />
-
-
-        <!-- rambut depan -->
-
-        <path
-          d="
-          M75 115
-          C70 55 110 35 150 35
-          C195 35 225 70 220 115
-          C195 85 180 75 160 80
-          C135 90 105 75 75 115
-          Z"
-          fill="#432818"
-        />
-
-
-        <!-- mata -->
-
-        <ellipse
-          cx="120"
-          cy="145"
-          rx="8"
-          ry="10"
-          fill="#1e293b"
-        />
-
-        <ellipse
-          cx="180"
-          cy="145"
-          rx="8"
-          ry="10"
-          fill="#1e293b"
-        />
-
-
-        <!-- hidung -->
-
-        <path
-          d="
-          M150 150
-          L143 170
-          L155 170"
-          fill="none"
-          stroke="#c08457"
-          stroke-width="4"
-        />
-
-
-        <!-- mulut -->
-
-        <ellipse
-          id="mouth"
-          class="mouth"
-          cx="150"
-          cy="195"
-          rx="22"
-          ry="7"
-          fill="#7f1d1d"
-        />
-
-
-        <!-- baju -->
-
-        <path
-          d="
-          M90 235
-          C110 215 190 215 210 235
-          L235 300
-          L65 300
-          Z"
-          fill="#2563eb"
-        />
-
-
-        <!-- kerah -->
-
-        <path
-          d="
-          M120 230
-          L150 265
-          L180 230
-          Z"
-          fill="white"
-        />
-
-      </svg>
+        </div>
 
     </div>
 
-  </div>
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div class="badge">
+            GOOGLE BUSINESS REVIEW
+        </div>
+
+        <h1>
+            Terima Kasih
+            <span class="heart">♥</span>
+        </h1>
+
+        <!-- 5 BINTANG TEPAT DI BAWAH JUDUL -->
+
+        <div class="header-stars">
+
+            <span>★</span>
+            <span>★</span>
+            <span>★</span>
+            <span>★</span>
+            <span>★</span>
+
+        </div>
+
+        <p class="header-sub">
+            Terima kasih atas kepercayaan dan dukungan Anda
+        </p>
+
+    </header>
 
 
-  <div
-    id="avatarInfo"
-    class="avatar-info"
-  >
+    <!-- MAIN -->
 
-    <div class="avatar-name">
-      Sarah
-    </div>
-
-    <div
-      id="avatarStatus"
-      class="avatar-role"
-    >
-      Customer Service
-    </div>
-
-  </div>
+    <div class="main">
 
 
-</section>
+        <!-- PANEL QR -->
+
+        <section class="generator">
+
+            <div class="window">
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+                &nbsp; review-generator.html
+
+            </div>
+
+            <h2>
+                🔗 QR Review
+            </h2>
+
+            <p>
+                Masukkan link review Google Business
+                untuk membuat QR Code secara instan.
+            </p>
+
+            <label for="reviewLink">
+                LINK REVIEW GOOGLE
+            </label>
+
+            <input
+                id="reviewLink"
+                type="text"
+                placeholder="https://g.page/r/xxxxx/review"
+                autocomplete="off"
+            >
+
+            <button
+                class="generate"
+                onclick="generateQR()"
+            >
+                ✨ BUAT QR CODE
+            </button>
+
+        </section>
 
 
+        <!-- AREA KANAN -->
 
-<!-- ==================================================
-     CHAT
-================================================== -->
-
-<section class="chat-section">
+        <section class="content">
 
 
-  <div class="chat-header">
+            <!-- QR CODE DI KIRI -->
 
-    <h2>
-      Percakapan
-    </h2>
+            <aside class="qr-area">
 
-    <p>
-      Berbicara langsung dengan Sarah
-    </p>
+                <div class="qr-header">
+                    SCAN REVIEW
+                </div>
 
-  </div>
+                <div
+                    class="qr-empty"
+                    id="qrEmpty"
+                >
+                    QR Code akan<br>
+                    muncul di sini
+                </div>
+
+                <div
+                    class="qr-card"
+                    id="qrCard"
+                >
+
+                    <div id="qrcode"></div>
+
+                    <div class="qr-label">
+                        SCAN UNTUK REVIEW
+                    </div>
+
+                </div>
+
+                <button
+                    class="download"
+                    id="downloadBtn"
+                    onclick="downloadQR()"
+                >
+                    📥 DOWNLOAD QR
+                </button>
+
+            </aside>
 
 
-  <div id="chat">
+            <!-- AVATAR -->
 
-    <div class="message bot">
-
-      Halo 👋 Saya Sarah,
-      Customer Service Anda.
-
-      Silakan tanyakan tentang
-      produk, harga, alamat,
-      pengiriman, atau layanan kami.
-
-    </div>
-
-  </div>
+            <section class="message">
 
 
-  <div class="bottom">
+                <div class="avatar">
+
+                    <div class="glow"></div>
 
 
-    <div class="input-area">
+                    <!-- UCAPAN -->
 
-      <input
-        id="textInput"
-        type="text"
-        placeholder="Tulis pesan..."
-      >
+                    <div class="speech">
 
-      <button id="send">
-        Kirim
-      </button>
+                        🙏 Terima kasih sudah
+                        memberikan review positif!
+
+                        <small>
+                            Dukungan Anda sangat berarti
+                            bagi perjalanan kami. ❤️
+                        </small>
+
+                    </div>
+
+
+                    <!-- BADAN -->
+
+                    <div class="body"></div>
+
+                    <div class="neck"></div>
+
+
+                    <!-- KEPALA -->
+
+                    <div class="head">
+
+                        <div class="hair"></div>
+
+                        <div class="eye left"></div>
+                        <div class="eye right"></div>
+
+                        <div class="cheek left"></div>
+                        <div class="cheek right"></div>
+
+                        <div class="nose"></div>
+
+                        <div class="smile"></div>
+
+                    </div>
+
+
+                    <!-- TANGAN -->
+
+                    <div class="hand left"></div>
+                    <div class="hand right"></div>
+
+                </div>
+
+
+                <!-- DOA -->
+
+                <div class="quote">
+
+                    “<strong>
+                    Semoga Anda selalu diberikan kesehatan,
+                    kebahagiaan, rezeki yang berlimpah,
+                    serta kemudahan dalam setiap langkah.
+                    </strong>
+
+                    <br>
+
+                    Terima kasih sudah menjadi bagian
+                    dari perjalanan kami.
+
+                    <span class="red">❤️</span>
+
+                </div>
+
+            </section>
+
+        </section>
 
     </div>
 
 
-    <div class="mic-row">
-
-      <button id="mic">
-        🎤
-      </button>
-
-      <div id="status">
-        Tekan mikrofon untuk berbicara
-      </div>
-
-    </div>
-
-  </div>
-
-
-</section>
-
-
-</main>
+    <footer>
+        FREE • NO LOGIN • NO DATABASE
+    </footer>
 
 </div>
 
 
-
 <script>
 
+/* =========================================
+   BUAT QR CODE
+========================================= */
 
-/* ==================================================
-   DATA CUSTOMER SERVICE
-================================================== */
+function generateQR(){
 
-const DATA = {
+    const input =
+        document.getElementById("reviewLink");
 
-  perusahaan: {
+    let link =
+        input.value.trim();
 
-    nama: "Toko ABC",
+    const qr =
+        document.getElementById("qrcode");
 
-    alamat:
-      "Jl. Contoh No. 123, Denpasar, Bali",
+    const qrCard =
+        document.getElementById("qrCard");
 
-    telepon:
-      "08123456789",
+    const qrEmpty =
+        document.getElementById("qrEmpty");
 
-    email:
-      "customer@tokoabc.com",
-
-    jam:
-      "Senin sampai Sabtu, pukul 08.00 sampai 17.00"
-
-  },
+    const download =
+        document.getElementById("downloadBtn");
 
 
-  produk: [
+    if(!link){
 
-    {
-      nama: "Produk A",
+        alert(
+            "Silakan masukkan link review Google."
+        );
 
-      harga: "Rp100.000",
+        input.focus();
 
-      deskripsi:
-        "Produk berkualitas untuk kebutuhan sehari-hari.",
-
-      stok:
-        "Tersedia"
-
-    },
-
-    {
-      nama: "Produk B",
-
-      harga: "Rp150.000",
-
-      deskripsi:
-        "Produk premium dengan kualitas terbaik.",
-
-      stok:
-        "Tersedia"
-
-    },
-
-    {
-      nama: "Produk C",
-
-      harga: "Rp200.000",
-
-      deskripsi:
-        "Produk pilihan untuk kebutuhan keluarga.",
-
-      stok:
-        "Habis"
-
+        return;
     }
 
-  ],
 
+    /* Tambahkan HTTPS otomatis */
 
-  faq: [
+    if(
+        !link.startsWith("http://") &&
+        !link.startsWith("https://")
+    ){
 
-    {
-      kata: ["cara", "pesan"],
-
-      jawaban:
-        "Untuk melakukan pemesanan, silakan pilih produk dan hubungi customer service kami."
-    },
-
-    {
-      kata: ["cara", "bayar"],
-
-      jawaban:
-        "Kami menerima pembayaran melalui transfer bank dan pembayaran digital."
-    },
-
-    {
-      kata: ["pengiriman"],
-
-      jawaban:
-        "Kami melayani pengiriman ke berbagai wilayah. Lama pengiriman tergantung lokasi tujuan."
-    },
-
-    {
-      kata: ["refund"],
-
-      jawaban:
-        "Untuk pengajuan refund, silakan hubungi customer service kami."
+        link =
+            "https://" + link;
     }
 
-  ]
 
-};
+    /* Periksa URL */
 
+    try{
 
+        new URL(link);
 
-/* ==================================================
-   ELEMENT
-================================================== */
+    }catch(error){
 
-const chat =
-  document.getElementById("chat");
+        alert(
+            "Link tidak valid. Silakan periksa kembali."
+        );
 
-const input =
-  document.getElementById("textInput");
-
-const send =
-  document.getElementById("send");
-
-const mic =
-  document.getElementById("mic");
-
-const status =
-  document.getElementById("status");
-
-const avatarTrack =
-  document.getElementById("avatarTrack");
-
-const avatarWrapper =
-  document.getElementById("avatarWrapper");
-
-const avatarStatus =
-  document.getElementById("avatarStatus");
-
-
-/*
-Jumlah percakapan.
-Digunakan untuk membuat avatar
-bergerak turun mengikuti dialog.
-*/
-
-let conversationCount = 0;
-
-
-
-/* ==================================================
-   TAMBAH PESAN
-================================================== */
-
-function addMessage(text, type) {
-
-  const div =
-    document.createElement("div");
-
-  div.className =
-    "message " + type;
-
-  div.innerText =
-    text;
-
-  chat.appendChild(div);
-
-
-  /*
-  Scroll otomatis ke pesan terbaru
-  */
-
-  chat.scrollTo({
-
-    top: chat.scrollHeight,
-
-    behavior: "smooth"
-
-  });
-
-
-  /*
-  Avatar ikut bergerak turun.
-
-  Setelah 5 langkah, posisinya
-  kembali agar tidak keluar layar.
-  */
-
-  conversationCount++;
-
-
-  const step =
-    conversationCount % 6;
-
-
-  avatarTrack.className =
-    "avatar-track";
-
-
-  if (step > 0) {
-
-    avatarTrack.classList.add(
-      "move-" + step
-    );
-
-  }
-
-}
-
-
-
-/* ==================================================
-   JAWAB
-================================================== */
-
-function jawab(question) {
-
-  const q =
-    question.toLowerCase();
-
-
-  /* salam */
-
-  if (
-    q.includes("halo") ||
-    q.includes("hai") ||
-    q.includes("hello")
-  ) {
-
-    return `Halo 👋 Selamat datang di ${DATA.perusahaan.nama}. Ada yang bisa saya bantu?`;
-
-  }
-
-
-  /* alamat */
-
-  if (
-    q.includes("alamat") ||
-    q.includes("lokasi") ||
-    q.includes("dimana") ||
-    q.includes("di mana")
-  ) {
-
-    return `Alamat kami adalah ${DATA.perusahaan.alamat}.`;
-
-  }
-
-
-  /* telepon */
-
-  if (
-    q.includes("telepon") ||
-    q.includes("nomor") ||
-    q.includes("whatsapp") ||
-    q.includes("wa")
-  ) {
-
-    return `Nomor customer service kami adalah ${DATA.perusahaan.telepon}.`;
-
-  }
-
-
-  /* email */
-
-  if (
-    q.includes("email")
-  ) {
-
-    return `Email kami adalah ${DATA.perusahaan.email}.`;
-
-  }
-
-
-  /* jam */
-
-  if (
-    q.includes("jam") ||
-    q.includes("buka") ||
-    q.includes("tutup") ||
-    q.includes("operasional")
-  ) {
-
-    return `Jam operasional kami adalah ${DATA.perusahaan.jam}.`;
-
-  }
-
-
-  /* produk */
-
-  for (
-    const produk of DATA.produk
-  ) {
-
-    const nama =
-      produk.nama.toLowerCase();
-
-
-    if (
-      q.includes(nama)
-    ) {
-
-
-      if (
-        q.includes("harga") ||
-        q.includes("berapa")
-      ) {
-
-        return `${produk.nama} harganya ${produk.harga}.`;
-
-      }
-
-
-      if (
-        q.includes("stok") ||
-        q.includes("ada") ||
-        q.includes("tersedia")
-      ) {
-
-        return `Untuk ${produk.nama}, stok saat ini ${produk.stok}.`;
-
-      }
-
-
-      return `
-${produk.nama}
-
-${produk.deskripsi}
-
-Harga: ${produk.harga}
-
-Stok: ${produk.stok}
-`;
-
+        return;
     }
 
-  }
+
+    /* Bersihkan QR sebelumnya */
+
+    qr.innerHTML = "";
 
 
-  /* semua harga */
+    /* Buat QR */
 
-  if (
-    q.includes("harga") ||
-    q.includes("berapa")
-  ) {
+    new QRCode(
 
-    let result =
-      "Berikut daftar harga produk kami:\n\n";
+        qr,
 
+        {
+            text:link,
 
-    DATA.produk.forEach(
-      p => {
+            width:144,
+            height:144,
 
-        result +=
-          `${p.nama}: ${p.harga}\n`;
+            colorDark:"#111827",
 
-      }
-    );
+            colorLight:"#ffffff",
 
-
-    return result;
-
-  }
-
-
-  /* FAQ */
-
-  for (
-    const faq of DATA.faq
-  ) {
-
-    let cocok =
-      0;
-
-
-    faq.kata.forEach(
-      kata => {
-
-        if (
-          q.includes(kata)
-        ) {
-
-          cocok++;
-
+            correctLevel:
+                QRCode.CorrectLevel.H
         }
 
-      }
     );
 
 
-    if (
-      cocok >=
-      Math.ceil(
-        faq.kata.length / 2
-      )
-    ) {
+    /* Tampilkan hasil */
 
-      return faq.jawaban;
+    qrEmpty.style.display =
+        "none";
 
-    }
+    qrCard.style.display =
+        "block";
 
-  }
-
-
-  /* terima kasih */
-
-  if (
-    q.includes("terima kasih") ||
-    q.includes("makasih")
-  ) {
-
-    return "Sama-sama 😊 Senang bisa membantu Anda.";
-
-  }
-
-
-  /* default */
-
-  return `
-Maaf, saya belum menemukan informasi tersebut.
-
-Anda dapat menanyakan:
-
-• Harga produk
-• Stok produk
-• Alamat
-• Jam operasional
-• Nomor telepon
-• Email
-• Cara pemesanan
-• Pembayaran
-• Pengiriman
-• Refund
-`;
-
+    download.style.display =
+        "block";
 }
 
 
+/* =========================================
+   DOWNLOAD QR
+========================================= */
 
-/* ==================================================
-   PROSES
-================================================== */
+function downloadQR(){
 
-function proses(text) {
-
-  if (
-    !text.trim()
-  ) {
-
-    return;
-
-  }
-
-
-  addMessage(
-    text,
-    "user"
-  );
-
-
-  status.innerText =
-    "Sarah sedang berpikir...";
-
-
-  avatarStatus.innerText =
-    "Sedang menjawab...";
-
-
-  setTimeout(
-    () => {
-
-      const answer =
-        jawab(text);
-
-
-      addMessage(
-        answer,
-        "bot"
-      );
-
-
-      speak(answer);
-
-    },
-    500
-  );
-
-}
-
-
-
-/* ==================================================
-   KIRIM TEXT
-================================================== */
-
-send.onclick =
-  () => {
-
-    const text =
-      input.value;
-
-
-    input.value =
-      "";
-
-
-    proses(text);
-
-  };
-
-
-input.addEventListener(
-  "keydown",
-  event => {
-
-    if (
-      event.key === "Enter"
-    ) {
-
-      send.click();
-
-    }
-
-  }
-);
-
-
-
-/* ==================================================
-   VOICE RECOGNITION
-================================================== */
-
-const SpeechRecognition =
-  window.SpeechRecognition ||
-  window.webkitSpeechRecognition;
-
-
-if (
-  SpeechRecognition
-) {
-
-  const recognition =
-    new SpeechRecognition();
-
-
-  recognition.lang =
-    "id-ID";
-
-
-  recognition.continuous =
-    false;
-
-
-  recognition.interimResults =
-    false;
-
-
-  mic.onclick =
-    () => {
-
-      try {
-
-        recognition.start();
-
-
-        mic.classList.add(
-          "active"
+    const canvas =
+        document.querySelector(
+            "#qrcode canvas"
         );
 
 
-        mic.innerHTML =
-          "🔴";
+    if(!canvas){
 
-
-        status.innerText =
-          "Mendengarkan...";
-
-
-        avatarStatus.innerText =
-          "Sarah sedang mendengarkan...";
-
-
-        avatarWrapper.classList.add(
-          "listening"
+        alert(
+            "Buat QR Code terlebih dahulu."
         );
 
-      }
-
-      catch(error) {
-
-        console.log(error);
-
-      }
-
-    };
+        return;
+    }
 
 
-  recognition.onresult =
-    event => {
-
-      const text =
-        event.results[0][0].transcript;
+    const padding = 30;
 
 
-      mic.classList.remove(
-        "active"
-      );
+    const output =
+        document.createElement("canvas");
 
 
-      mic.innerHTML =
-        "🎤";
+    output.width =
+        canvas.width +
+        padding * 2;
 
 
-      avatarWrapper.classList.remove(
-        "listening"
-      );
+    output.height =
+        canvas.height +
+        padding * 2 +
+        45;
 
 
-      proses(text);
-
-    };
-
-
-  recognition.onend =
-    () => {
-
-      mic.classList.remove(
-        "active"
-      );
+    const ctx =
+        output.getContext("2d");
 
 
-      mic.innerHTML =
-        "🎤";
+    /* Background */
 
+    ctx.fillStyle =
+        "#ffffff";
 
-      avatarWrapper.classList.remove(
-        "listening"
-      );
-
-    };
-
-
-  recognition.onerror =
-    event => {
-
-      console.log(
-        event.error
-      );
-
-
-      mic.classList.remove(
-        "active"
-      );
-
-
-      mic.innerHTML =
-        "🎤";
-
-
-      avatarWrapper.classList.remove(
-        "listening"
-      );
-
-
-      status.innerText =
-        "Silakan coba lagi.";
-
-
-      avatarStatus.innerText =
-        "Siap membantu Anda";
-
-    };
-
-}
-
-
-
-/* ==================================================
-   TEXT TO SPEECH
-================================================== */
-
-function speak(text) {
-
-  speechSynthesis.cancel();
-
-
-  const voice =
-    new SpeechSynthesisUtterance(
-      text
+    ctx.fillRect(
+        0,
+        0,
+        output.width,
+        output.height
     );
 
 
-  voice.lang =
-    "id-ID";
+    /* QR */
+
+    ctx.drawImage(
+        canvas,
+        padding,
+        padding
+    );
 
 
-  voice.rate =
-    .95;
+    /* Label */
+
+    ctx.fillStyle =
+        "#111827";
+
+    ctx.font =
+        "bold 13px Arial";
+
+    ctx.textAlign =
+        "center";
+
+    ctx.fillText(
+        "Scan untuk memberikan review",
+        output.width / 2,
+        output.height - 14
+    );
 
 
-  voice.pitch =
-    1;
+    /* Download */
 
+    const link =
+        document.createElement("a");
 
-  avatarWrapper.classList.add(
-    "speaking"
-  );
+    link.download =
+        "QR-Review-GMB.png";
 
+    link.href =
+        output.toDataURL("image/png");
 
-  avatarStatus.innerText =
-    "Sarah sedang berbicara...";
-
-
-  voice.onend =
-    () => {
-
-      avatarWrapper.classList.remove(
-        "speaking"
-      );
-
-
-      avatarStatus.innerText =
-        "Customer Service";
-
-      status.innerText =
-        "Tekan mikrofon untuk berbicara lagi";
-
-    };
-
-
-  speechSynthesis.speak(
-    voice
-  );
-
+    link.click();
 }
+
+
+/* =========================================
+   ENTER = BUAT QR
+========================================= */
+
+document
+    .getElementById("reviewLink")
+    .addEventListener(
+        "keydown",
+        function(event){
+
+            if(event.key === "Enter"){
+
+                generateQR();
+
+            }
+
+        }
+    );
 
 </script>
 
